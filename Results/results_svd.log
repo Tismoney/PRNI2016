@@ -1,0 +1,130 @@
+Line: 1/7
+Data              UCLAsource
+Weighters              origW
+Normalizers         spectral
+Featurizers            origF
+Selectors      var_threshold
+Scalers               minmax
+Classifiers               LR
+Name: 0, dtype: object
+Got Features: 21.097 sec
+Scoring: roc_auc
+Grid Search: 213.249 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'l2', 'C': 0.1, 'max_iter': 50}", 'grid_roc_auc_mean': 0.57943262411347507, 'grid_roc_auc_std': 0.18725694304397134}
+Got Scores: 2.404 sec
+Scores mean: 0.557666666667
+Scores std: 0.175296891016
+Scores: [ 0.56666667  0.56        0.6         0.75        0.9         0.45        0.25
+  0.6         0.35        0.55      ]
+
+Line: 2/7
+Data              UCLAsource
+Weighters              origW
+Normalizers         spectral
+Featurizers           svd_50
+Selectors      var_threshold
+Scalers               minmax
+Classifiers               LR
+Name: 1, dtype: object
+Got Features: 1.315 sec
+Scoring: roc_auc
+Grid Search: 317.542 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'l1', 'C': 0.35000000000000003, 'max_iter': 50}", 'grid_roc_auc_mean': 0.53191489361702138, 'grid_roc_auc_std': 0.17364231146633491}
+Got Scores: 2.642 sec
+Scores mean: 0.575
+Scores std: 0.162311429049
+Scores: [ 0.6   0.76  0.64  0.85  0.75  0.45  0.35  0.5   0.45  0.4 ]
+
+Line: 3/7
+Data              UCLAsource
+Weighters              origW
+Normalizers         spectral
+Featurizers          svd_100
+Selectors      var_threshold
+Scalers               minmax
+Classifiers               LR
+Name: 2, dtype: object
+Got Features: 1.299 sec
+Scoring: roc_auc
+Grid Search: 238.147 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'l2', 'C': 0.25, 'max_iter': 50}", 'grid_roc_auc_mean': 0.5771276595744681, 'grid_roc_auc_std': 0.15310003919302367}
+Got Scores: 2.816 sec
+Scores mean: 0.571666666667
+Scores std: 0.224153964944
+Scores: [ 0.76666667  0.76        0.24        0.75        0.8         0.8         0.45
+  0.55        0.2         0.4       ]
+
+Line: 4/7
+Data              UCLAsource
+Weighters              origW
+Normalizers         spectral
+Featurizers          svd_150
+Selectors      var_threshold
+Scalers               minmax
+Classifiers               LR
+Name: 3, dtype: object
+Got Features: 1.242 sec
+Scoring: roc_auc
+Grid Search: 182.379 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'l1', 'C': 0.25, 'max_iter': 50}", 'grid_roc_auc_mean': 0.67943262411347527, 'grid_roc_auc_std': 0.16803385219690281}
+Got Scores: 1.394 sec
+Scores mean: 0.558333333333
+Scores std: 0.206183575162
+Scores: [ 0.43333333  0.76        0.64        0.75        0.3         0.2         0.6
+  0.55        0.9         0.45      ]
+
+Line: 5/7
+Data              UCLAsource
+Weighters              origW
+Normalizers         spectral
+Featurizers          svd_200
+Selectors      var_threshold
+Scalers               minmax
+Classifiers               LR
+Name: 4, dtype: object
+Got Features: 1.233 sec
+Scoring: roc_auc
+Grid Search: 129.32 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'l1', 'C': 0.65, 'max_iter': 50}", 'grid_roc_auc_mean': 0.70780141843971633, 'grid_roc_auc_std': 0.14273796289003668}
+Got Scores: 0.972 sec
+Scores mean: 0.61
+Scores std: 0.183793362231
+Scores: [ 0.7   0.52  0.28  0.9   0.7   0.65  0.75  0.65  0.65  0.3 ]
+
+Line: 6/7
+Data              UCLAsource
+Weighters              origW
+Normalizers         spectral
+Featurizers          svd_250
+Selectors      var_threshold
+Scalers               minmax
+Classifiers               LR
+Name: 5, dtype: object
+Got Features: 1.459 sec
+Scoring: roc_auc
+Grid Search: 30.368 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'l1', 'C': 1.0, 'max_iter': 500}", 'grid_roc_auc_mean': 0.56241134751773048, 'grid_roc_auc_std': 0.19556453062750245}
+Got Scores: 0.456 sec
+Scores mean: 0.525
+Scores std: 0.18575521527
+Scores: [ 0.4   0.72  0.48  0.35  0.45  0.95  0.65  0.45  0.5   0.3 ]
+
+Line: 7/7
+Data              UCLAsource
+Weighters              origW
+Normalizers         spectral
+Featurizers         low_rank
+Selectors      var_threshold
+Scalers               minmax
+Classifiers               LR
+Name: 6, dtype: object
+Got Features: 2.701 sec
+Scoring: roc_auc
+Grid Search: 369.738 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'l2', 'C': 0.01, 'max_iter': 50}", 'grid_roc_auc_mean': 0.50336879432624104, 'grid_roc_auc_std': 0.1707406302223107}
+Got Scores: 3.248 sec
+Scores mean: 0.525333333333
+Scores std: 0.0929300812439
+Scores: [ 0.63333333  0.64        0.48        0.5         0.4         0.45        0.5
+  0.7         0.45        0.5       ]
+
