@@ -1,0 +1,56 @@
+Line: 1/3
+Data              UCLAsource
+Weighters              origW
+Normalizers         spectral
+Featurizers          svd_200
+Selectors      var_threshold
+Scalers               minmax
+Classifiers               LR
+Name: 0, dtype: object
+Got Features: 22.644 sec
+Scoring: roc_auc
+Grid Search: 77.878 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'l1', 'C': 0.5, 'max_iter': 50}", 'grid_roc_auc_mean': 0.6985815602836879, 'grid_roc_auc_std': 0.15995455128861999}
+Got Scores: 0.863 sec
+Scores mean: 0.617666666667
+Scores std: 0.22652961543
+Scores: [ 0.76666667  0.52        0.24        0.95        0.7         0.7         0.7
+  0.6         0.8         0.2       ]
+
+Line: 2/3
+Data              UCLAsource
+Weighters              origW
+Normalizers         spectral
+Featurizers          svd_200
+Selectors      var_threshold
+Scalers               minmax
+Classifiers              SVC
+Name: 1, dtype: object
+Got Features: 0.0 sec
+Scoring: roc_auc
+Grid Search: 89.08 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'kernel': 'poly', 'C': 0.4, 'max_iter': 50, 'degree': 4}", 'grid_roc_auc_mean': 0.56276595744680846, 'grid_roc_auc_std': 0.20822657593643265}
+Got Scores: 0.85 sec
+Scores mean: 0.583333333333
+Scores std: 0.120415945788
+Scores: [ 0.73333333  0.8         0.4         0.55        0.65        0.5         0.65
+  0.6         0.45        0.5       ]
+
+Line: 3/3
+Data              UCLAsource
+Weighters              origW
+Normalizers         spectral
+Featurizers          svd_200
+Selectors      var_threshold
+Scalers               minmax
+Classifiers              SGD
+Name: 2, dtype: object
+Got Features: 0.0 sec
+Scoring: roc_auc
+Grid Search: 548.601 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'elasticnet', 'loss': 'modified_huber', 'alpha': 0.1, 'n_iter': 200, 'l1_ratio': 0.8}", 'grid_roc_auc_mean': 0.70443262411347518, 'grid_roc_auc_std': 0.10856291907932558}
+Got Scores: 4.0 sec
+Scores mean: 0.622
+Scores std: 0.241942141844
+Scores: [ 0.9   0.56  0.16  1.    0.45  0.7   0.7   0.6   0.8   0.35]
+
