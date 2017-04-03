@@ -1,0 +1,338 @@
+Line: 1/18
+Data              UCLAsource
+Weighters              origW
+Normalizers         spectral
+Featurizers            origF
+Selectors      var_threshold
+Scalers               minmax
+Classifiers               LR
+Name: 0, dtype: object
+Got Features: 21.669 sec
+Scoring: roc_auc
+Grid Search: 217.944 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'l2', 'C': 0.1, 'max_iter': 50}", 'grid_roc_auc_mean': 0.57943262411347507, 'grid_roc_auc_std': 0.18725694304397134}
+Got Scores: 2.21 sec
+Scores mean: 0.557666666667
+Scores std: 0.175296891016
+Scores: [ 0.56666667  0.56        0.6         0.75        0.9         0.45        0.25
+  0.6         0.35        0.55      ]
+
+Line: 2/18
+Data              UCLAsource
+Weighters              origW
+Normalizers         spectral
+Featurizers            origF
+Selectors      var_threshold
+Scalers               minmax
+Classifiers              SVC
+Name: 1, dtype: object
+Got Features: 0.0 sec
+Scoring: roc_auc
+Grid Search: 810.818 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'kernel': 'linear', 'C': 0.005, 'max_iter': 50, 'degree': 2}", 'grid_roc_auc_mean': 0.59485815602836878, 'grid_roc_auc_std': 0.1899114294577347}
+Got Scores: 2.151 sec
+Scores mean: 0.567666666667
+Scores std: 0.189602215177
+Scores: [ 0.66666667  0.52        0.64        0.8         0.9         0.4         0.25
+  0.6         0.35        0.55      ]
+
+Line: 3/18
+Data              UCLAsource
+Weighters              origW
+Normalizers         spectral
+Featurizers            origF
+Selectors      var_threshold
+Scalers               minmax
+Classifiers              SGD
+Name: 2, dtype: object
+Got Features: 0.0 sec
+Scoring: roc_auc
+Grid Search: 964.807 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'elasticnet', 'loss': 'hinge', 'alpha': 0.001, 'n_iter': 200, 'l1_ratio': 0.2}", 'grid_roc_auc_mean': 0.64432624113475179, 'grid_roc_auc_std': 0.13746164716540571}
+Got Scores: 7.315 sec
+Scores mean: 0.609666666667
+Scores std: 0.121412519947
+Scores: [ 0.66666667  0.68        0.6         0.85        0.7         0.4         0.55
+  0.6         0.45        0.6       ]
+
+Line: 4/18
+Data              UCLAsource
+Weighters              origW
+Normalizers         spectral
+Featurizers      low_rank_30
+Selectors      var_threshold
+Scalers               minmax
+Classifiers               LR
+Name: 3, dtype: object
+Got Features: 2.704 sec
+Scoring: roc_auc
+Grid Search: 372.455 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'l2', 'C': 0.01, 'max_iter': 50}", 'grid_roc_auc_mean': 0.50336879432624104, 'grid_roc_auc_std': 0.1707406302223107}
+Got Scores: 3.424 sec
+Scores mean: 0.525333333333
+Scores std: 0.0929300812439
+Scores: [ 0.63333333  0.64        0.48        0.5         0.4         0.45        0.5
+  0.7         0.45        0.5       ]
+
+Line: 5/18
+Data              UCLAsource
+Weighters              origW
+Normalizers         spectral
+Featurizers      low_rank_30
+Selectors      var_threshold
+Scalers               minmax
+Classifiers              SVC
+Name: 4, dtype: object
+Got Features: 0.0 sec
+Scoring: roc_auc
+Grid Search: 1159.28 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'kernel': 'rbf', 'C': 0.0005, 'max_iter': 50, 'degree': 2}", 'grid_roc_auc_mean': 0.53067375886524826, 'grid_roc_auc_std': 0.17247508456596392}
+Got Scores: 2.433 sec
+Scores mean: 0.541
+Scores std: 0.107559285978
+Scores: [ 0.7   0.64  0.52  0.6   0.4   0.4   0.5   0.6   0.4   0.65]
+
+Line: 6/18
+Data              UCLAsource
+Weighters              origW
+Normalizers         spectral
+Featurizers      low_rank_30
+Selectors      var_threshold
+Scalers               minmax
+Classifiers              SGD
+Name: 5, dtype: object
+Got Features: 0.0 sec
+Scoring: roc_auc
+Grid Search: 1612.004 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'elasticnet', 'loss': 'hinge', 'alpha': 0.01, 'n_iter': 100, 'l1_ratio': 0}", 'grid_roc_auc_mean': 0.58989361702127652, 'grid_roc_auc_std': 0.20042239799691067}
+Got Scores: 7.782 sec
+Scores mean: 0.551666666667
+Scores std: 0.0936571762689
+Scores: [ 0.76666667  0.52        0.48        0.45        0.55        0.6         0.45
+  0.65        0.5         0.55      ]
+
+Line: 7/18
+Data                 UCLAsource
+Weighters                 origW
+Normalizers            spectral
+Featurizers    low_rank_30_curs
+Selectors         var_threshold
+Scalers                  minmax
+Classifiers                  LR
+Name: 6, dtype: object
+Got Features: 3.851 sec
+Scoring: roc_auc
+Grid Search: 379.342 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'l1', 'C': 0.8, 'max_iter': 500}", 'grid_roc_auc_mean': 0.61400709219858163, 'grid_roc_auc_std': 0.15510050107699294}
+Got Scores: 2.771 sec
+Scores mean: 0.582666666667
+Scores std: 0.211133449111
+Scores: [ 0.46666667  0.84        0.32        0.55        1.          0.3         0.5
+  0.6         0.5         0.75      ]
+
+Line: 8/18
+Data                 UCLAsource
+Weighters                 origW
+Normalizers            spectral
+Featurizers    low_rank_30_curs
+Selectors         var_threshold
+Scalers                  minmax
+Classifiers                 SVC
+Name: 7, dtype: object
+Got Features: 0.0 sec
+Scoring: roc_auc
+Grid Search: 1156.107 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'kernel': 'poly', 'C': 0.15000000000000002, 'max_iter': 50, 'degree': 2}", 'grid_roc_auc_mean': 0.56524822695035459, 'grid_roc_auc_std': 0.21293373999176349}
+Got Scores: 2.292 sec
+Scores mean: 0.571
+Scores std: 0.0746257328272
+Scores: [ 0.7   0.6   0.56  0.55  0.5   0.45  0.55  0.7   0.55  0.55]
+
+Line: 9/18
+Data                 UCLAsource
+Weighters                 origW
+Normalizers            spectral
+Featurizers    low_rank_30_curs
+Selectors         var_threshold
+Scalers                  minmax
+Classifiers                 SGD
+Name: 8, dtype: object
+Got Features: 0.0 sec
+Scoring: roc_auc
+Grid Search: 1600.301 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'elasticnet', 'loss': 'hinge', 'alpha': 0.001, 'n_iter': 50, 'l1_ratio': 0.4}", 'grid_roc_auc_mean': 0.61826241134751769, 'grid_roc_auc_std': 0.23656911820596543}
+Got Scores: 5.223 sec
+Scores mean: 0.579333333333
+Scores std: 0.160760691713
+Scores: [ 0.33333333  0.6         0.56        0.75        0.35        0.45        0.7
+  0.75        0.5         0.8       ]
+
+Line: 10/18
+Data              UCLAsource
+Weighters              binar
+Normalizers            origN
+Featurizers            origF
+Selectors      var_threshold
+Scalers               minmax
+Classifiers               LR
+Name: 9, dtype: object
+Got Features: 0.085 sec
+Scoring: roc_auc
+Grid Search: 215.441 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'l1', 'C': 0.5, 'max_iter': 50}", 'grid_roc_auc_mean': 0.55301418439716321, 'grid_roc_auc_std': 0.11039266809875221}
+Got Scores: 2.347 sec
+Scores mean: 0.495
+Scores std: 0.132834483475
+Scores: [ 0.5   0.64  0.36  0.5   0.5   0.35  0.75  0.45  0.3   0.6 ]
+
+Line: 11/18
+Data              UCLAsource
+Weighters              binar
+Normalizers            origN
+Featurizers            origF
+Selectors      var_threshold
+Scalers               minmax
+Classifiers              SVC
+Name: 10, dtype: object
+Got Features: 0.0 sec
+Scoring: roc_auc
+Grid Search: 789.405 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'kernel': 'linear', 'C': 0.0005, 'max_iter': 100, 'degree': 2}", 'grid_roc_auc_mean': 0.5716312056737588, 'grid_roc_auc_std': 0.17803812955282719}
+Got Scores: 2.219 sec
+Scores mean: 0.532666666667
+Scores std: 0.113976605787
+Scores: [ 0.36666667  0.68        0.48        0.75        0.45        0.55        0.5
+  0.6         0.4         0.55      ]
+
+Line: 12/18
+Data              UCLAsource
+Weighters              binar
+Normalizers            origN
+Featurizers            origF
+Selectors      var_threshold
+Scalers               minmax
+Classifiers              SGD
+Name: 11, dtype: object
+Got Features: 0.0 sec
+Scoring: roc_auc
+Grid Search: 928.93 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'elasticnet', 'loss': 'log', 'alpha': 0.1, 'n_iter': 200, 'l1_ratio': 0.8}", 'grid_roc_auc_mean': 0.6847517730496453, 'grid_roc_auc_std': 0.15571385935643065}
+Got Scores: 6.671 sec
+Scores mean: 0.555833333333
+Scores std: 0.218138908344
+Scores: [ 0.73333333  0.66        0.24        0.15        0.5         0.475       0.725
+  0.75        0.85        0.475     ]
+
+Line: 13/18
+Data              UCLAsource
+Weighters              binar
+Normalizers            origN
+Featurizers      low_rank_30
+Selectors      var_threshold
+Scalers               minmax
+Classifiers               LR
+Name: 12, dtype: object
+Got Features: 2.675 sec
+Scoring: roc_auc
+Grid Search: 342.264 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'l1', 'C': 0.35000000000000003, 'max_iter': 50}", 'grid_roc_auc_mean': 0.72819148936170219, 'grid_roc_auc_std': 0.11311792722413158}
+Got Scores: 2.988 sec
+Scores mean: 0.643666666667
+Scores std: 0.115156415366
+Scores: [ 0.46666667  0.6         0.52        0.65        0.85        0.75        0.5
+  0.7         0.7         0.7       ]
+
+Line: 14/18
+Data              UCLAsource
+Weighters              binar
+Normalizers            origN
+Featurizers      low_rank_30
+Selectors      var_threshold
+Scalers               minmax
+Classifiers              SVC
+Name: 13, dtype: object
+Got Features: 0.0 sec
+Scoring: roc_auc
+Grid Search: 1155.697 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'kernel': 'poly', 'C': 0.0005, 'max_iter': 50, 'degree': 3}", 'grid_roc_auc_mean': 0.60673758865248228, 'grid_roc_auc_std': 0.21489619173141003}
+Got Scores: 2.396 sec
+Scores mean: 0.629333333333
+Scores std: 0.160677731293
+Scores: [ 0.43333333  0.52        0.84        0.8         0.6         0.9         0.55
+  0.6         0.4         0.65      ]
+
+Line: 15/18
+Data              UCLAsource
+Weighters              binar
+Normalizers            origN
+Featurizers      low_rank_30
+Selectors      var_threshold
+Scalers               minmax
+Classifiers              SGD
+Name: 14, dtype: object
+Got Features: 0.0 sec
+Scoring: roc_auc
+Grid Search: 1606.998 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'elasticnet', 'loss': 'log', 'alpha': 0.1, 'n_iter': 200, 'l1_ratio': 0.4}", 'grid_roc_auc_mean': 0.63758865248226959, 'grid_roc_auc_std': 0.13935294939398873}
+Got Scores: 12.85 sec
+Scores mean: 0.589
+Scores std: 0.201069639677
+Scores: [ 0.7   0.28  0.76  0.55  0.8   0.6   0.15  0.65  0.7   0.7 ]
+
+Line: 16/18
+Data                 UCLAsource
+Weighters                 binar
+Normalizers               origN
+Featurizers    low_rank_30_curs
+Selectors         var_threshold
+Scalers                  minmax
+Classifiers                  LR
+Name: 15, dtype: object
+Got Features: 2.785 sec
+Scoring: roc_auc
+Grid Search: 330.939 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'l1', 'C': 0.9500000000000001, 'max_iter': 50}", 'grid_roc_auc_mean': 0.75904255319148928, 'grid_roc_auc_std': 0.12289996926177418}
+Got Scores: 2.814 sec
+Scores mean: 0.629666666667
+Scores std: 0.196012754687
+Scores: [ 0.56666667  0.48        0.8         0.85        0.4         0.75        0.4
+  0.55        0.5         1.        ]
+
+Line: 17/18
+Data                 UCLAsource
+Weighters                 binar
+Normalizers               origN
+Featurizers    low_rank_30_curs
+Selectors         var_threshold
+Scalers                  minmax
+Classifiers                 SVC
+Name: 16, dtype: object
+Got Features: 0.0 sec
+Scoring: roc_auc
+Grid Search: 1149.42 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'kernel': 'poly', 'C': 0.05, 'max_iter': 50, 'degree': 2}", 'grid_roc_auc_mean': 0.62570921985815597, 'grid_roc_auc_std': 0.2144163678544227}
+Got Scores: 2.298 sec
+Scores mean: 0.636333333333
+Scores std: 0.163628644599
+Scores: [ 0.53333333  0.56        0.92        0.65        0.7         0.75        0.85
+  0.5         0.35        0.55      ]
+
+Line: 18/18
+Data                 UCLAsource
+Weighters                 binar
+Normalizers               origN
+Featurizers    low_rank_30_curs
+Selectors         var_threshold
+Scalers                  minmax
+Classifiers                 SGD
+Name: 17, dtype: object
+Got Features: 0.0 sec
+Scoring: roc_auc
+Grid Search: 1596.24 sec
+Grid Search Results: {'grid_roc_auc_best_params': "{'penalty': 'elasticnet', 'loss': 'modified_huber', 'alpha': 0.1, 'n_iter': 100, 'l1_ratio': 0.6}", 'grid_roc_auc_mean': 0.68280141843971631, 'grid_roc_auc_std': 0.16147319943292096}
+Got Scores: 6.464 sec
+Scores mean: 0.575666666667
+Scores std: 0.189549465839
+Scores: [ 0.56666667  0.64        0.8         0.75        0.4         0.6         0.4
+  0.3         0.4         0.9       ]
+
