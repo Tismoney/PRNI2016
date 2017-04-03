@@ -1,0 +1,22 @@
+,Data,Weighters,Normalizers,Featurizers,Selectors,Scalers,Classifiers,grid_roc_auc_mean,grid_roc_auc_std,grid_roc_auc_best_params,eval_roc_auc_mean,eval_roc_auc_std,eval_roc_auc_scores
+0,UCLAsource,origW,spectral,low_rank_30,var_threshold,minmax,LR,0.50336879432624104,0.1707406302223107,"{'penalty': 'l2', 'C': 0.01, 'max_iter': 50}",0.52533333333333332,0.092930081243911528,"[ 0.63333333  0.64        0.48        0.5         0.4         0.45        0.5
+  0.7         0.45        0.5       ]"
+1,UCLAsource,origW,spectral,low_rank_30,var_threshold,minmax,SVC,0.53067375886524826,0.17247508456596392,"{'kernel': 'rbf', 'C': 0.0005, 'max_iter': 50, 'degree': 2}",0.54100000000000015,0.10755928597754824,[ 0.7   0.64  0.52  0.6   0.4   0.4   0.5   0.6   0.4   0.65]
+2,UCLAsource,origW,spectral,low_rank_30,var_threshold,minmax,SGD,0.5838652482269503,0.22935890876249146,"{'penalty': 'elasticnet', 'loss': 'hinge', 'alpha': 0.001, 'n_iter': 100, 'l1_ratio': 0.4}",0.45966666666666667,0.062883490149110932,"[ 0.46666667  0.44        0.44        0.55        0.5         0.3         0.45
+  0.5         0.45        0.5       ]"
+3,UCLAsource,origW,spectral,low_rank_30_curs,var_threshold,minmax,LR,0.61684397163120563,0.14262182550862579,"{'penalty': 'l1', 'C': 0.8500000000000001, 'max_iter': 100}",0.59799999999999998,0.19286264542414633,[ 0.5   0.72  0.36  0.65  1.    0.3   0.5   0.65  0.55  0.75]
+4,UCLAsource,origW,spectral,low_rank_30_curs,var_threshold,minmax,SVC,0.56524822695035459,0.21293373999176349,"{'kernel': 'poly', 'C': 0.15000000000000002, 'max_iter': 50, 'degree': 2}",0.57099999999999995,0.074625732827222555,[ 0.7   0.6   0.56  0.55  0.5   0.45  0.55  0.7   0.55  0.55]
+5,UCLAsource,origW,spectral,low_rank_30_curs,var_threshold,minmax,SGD,0.5941489361702128,0.1961404705842115,"{'penalty': 'elasticnet', 'loss': 'hinge', 'alpha': 0.01, 'n_iter': 200, 'l1_ratio': 0}",0.59433333333333338,0.074087785767965819,"[ 0.63333333  0.56        0.6         0.65        0.5         0.5         0.5
+  0.6         0.7         0.7       ]"
+6,UCLAsource,binar,origN,low_rank_30,var_threshold,minmax,LR,0.72996453900709224,0.12542079968294334,"{'penalty': 'l1', 'C': 0.35000000000000003, 'max_iter': 50}",0.64766666666666661,0.11142561046126993,"[ 0.46666667  0.6         0.56        0.65        0.85        0.75        0.5
+  0.7         0.7         0.7       ]"
+7,UCLAsource,binar,origN,low_rank_30,var_threshold,minmax,SVC,0.60673758865248228,0.21489619173141003,"{'kernel': 'poly', 'C': 0.0005, 'max_iter': 50, 'degree': 3}",0.62933333333333352,0.16067773129258869,"[ 0.43333333  0.52        0.84        0.8         0.6         0.9         0.55
+  0.6         0.4         0.65      ]"
+8,UCLAsource,binar,origN,low_rank_30,var_threshold,minmax,SGD,0.66985815602836885,0.14739416196696045,"{'penalty': 'elasticnet', 'loss': 'log', 'alpha': 0.1, 'n_iter': 200, 'l1_ratio': 0.4}",0.57966666666666666,0.2230567939636301,"[ 0.76666667  0.68        0.6         0.5         0.85        0.55        0.
+  0.5         0.75        0.6       ]"
+9,UCLAsource,binar,origN,low_rank_30_curs,var_threshold,minmax,LR,0.76471631205673751,0.1312527469706623,"{'penalty': 'l1', 'C': 1.0, 'max_iter': 100}",0.63866666666666672,0.17121915780659594,"[ 0.56666667  0.48        0.84        0.85        0.5         0.75        0.4
+  0.6         0.5         0.9       ]"
+10,UCLAsource,binar,origN,low_rank_30_curs,var_threshold,minmax,SVC,0.62570921985815597,0.2144163678544227,"{'kernel': 'poly', 'C': 0.05, 'max_iter': 50, 'degree': 2}",0.6363333333333332,0.16362864459908402,"[ 0.53333333  0.56        0.92        0.65        0.7         0.75        0.85
+  0.5         0.35        0.55      ]"
+11,UCLAsource,binar,origN,low_rank_30_curs,var_threshold,minmax,SGD,0.68758865248226952,0.16586573813287622,"{'penalty': 'elasticnet', 'loss': 'modified_huber', 'alpha': 0.1, 'n_iter': 200, 'l1_ratio': 0.8}",0.54166666666666663,0.22687367997779442,"[ 0.36666667  0.32        0.88        0.8         0.35        0.7         0.35
+  0.3         0.5         0.85      ]"
