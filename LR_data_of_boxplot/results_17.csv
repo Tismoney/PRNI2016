@@ -1,0 +1,13 @@
+,Data,Weighters,Normalizers,Featurizers,Selectors,Scalers,Classifiers,grid_roc_auc_mean,grid_roc_auc_std,grid_roc_auc_best_params,eval_roc_auc_mean,eval_roc_auc_std,eval_roc_auc_scores
+0,UCLAsource,origW,spectral,origF,var_threshold,minmax,LR_orig,0.57074468085106378,0.17688341731991297,"{'penalty': 'l1', 'C': 0.4, 'max_iter': 50}",0.60933333333333339,0.16819829567111158,"[ 0.73333333  0.72        0.64        0.85        0.75        0.3         0.35
+  0.5         0.6         0.65      ]"
+1,UCLAsource,origW,spectral,low230,var_threshold,minmax,LR_orig,0.53280141843971629,0.23610877366237809,"{'penalty': 'l1', 'C': 0.4, 'max_iter': 50}",0.6256666666666667,0.14399884258794118,"[ 0.66666667  0.68        0.76        0.65        0.85        0.6         0.4
+  0.4         0.5         0.75      ]"
+2,UCLAsource,origW,spectral,low240,var_threshold,minmax,LR_orig,0.62109929078014192,0.20305840516871615,"{'penalty': 'l1', 'C': 0.4, 'max_iter': 50}",0.63366666666666671,0.14893287078412204,"[ 0.66666667  0.76        0.76        0.65        0.85        0.6         0.4
+  0.4         0.5         0.75      ]"
+3,UCLAsource,binar,origN,origF,var_threshold,minmax,LR_binar,0.57340425531914896,0.15681370700706143,"{'penalty': 'l2', 'C': 0.6, 'max_iter': 50}",0.59733333333333338,0.15894653189044422,"[ 0.63333333  0.6         0.64        0.85        0.85        0.55        0.3
+  0.6         0.45        0.5       ]"
+4,UCLAsource,binar,origN,low250,var_threshold,minmax,LR_binar,0.55212765957446808,0.18443630244742995,"{'penalty': 'l2', 'C': 0.6, 'max_iter': 50}",0.47666666666666668,0.12497999839974397,"[ 0.26666667  0.44        0.56        0.6         0.3         0.55        0.65
+  0.5         0.55        0.35      ]"
+5,UCLAsource,binar,origN,low260,var_threshold,minmax,LR_binar,0.63120567375886527,0.19147668726113568,"{'penalty': 'l2', 'C': 0.6, 'max_iter': 50}",0.62066666666666659,0.19995999599919981,"[ 0.26666667  0.68        0.56        0.7         0.75        0.95        0.75
+  0.75        0.45        0.35      ]"
