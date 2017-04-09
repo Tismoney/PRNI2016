@@ -1,0 +1,8 @@
+,Data,Weighters,Normalizers,Featurizers,Selectors,Scalers,Classifiers,grid_roc_auc_mean,grid_roc_auc_std,grid_roc_auc_best_params,eval_roc_auc_mean,eval_roc_auc_std,eval_roc_auc_scores
+0,UCLAsource,binar,origN,origF,var_threshold,minmax,SVC_orig,0.57074468085106378,0.18086811559162136,"{'kernel': 'linear', 'C': 0.001, 'max_iter': 100, 'degree': 2}",0.56633333333333336,0.18637149281296575,"[ 0.73333333  0.6         0.88        0.4         0.8         0.4         0.5
+  0.25        0.6         0.5       ]"
+1,UCLAsource,binar,origN,low250,var_threshold,minmax,SVC_250,0.53971631205673765,0.17446822925670111,"{'kernel': 'poly', 'C': 0.1, 'max_iter': 50, 'degree': 4}",0.47733333333333344,0.14082139988889,"[ 0.43333333  0.56        0.48        0.4         0.25        0.3         0.6
+  0.65        0.4         0.7       ]"
+2,UCLAsource,binar,origN,low260,var_threshold,minmax,SVC_260,0.6388297872340426,0.20937524281588318,"{'kernel': 'linear', 'C': 0.3, 'max_iter': 100, 'degree': 2}",0.58400000000000007,0.10883014288330234,[ 0.6   0.56  0.48  0.35  0.65  0.75  0.5   0.65  0.65  0.65]
+3,UCLAsource,binar,origN,low263,var_threshold,minmax,SVC_263,0.5941489361702128,0.26016120033249146,"{'kernel': 'poly', 'C': 0.1, 'max_iter': 50, 'degree': 3}",0.52833333333333332,0.13457959231126637,"[ 0.43333333  0.64        0.76        0.45        0.55        0.25        0.65
+  0.55        0.45        0.55      ]"

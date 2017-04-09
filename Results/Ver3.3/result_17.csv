@@ -1,0 +1,8 @@
+,Data,Weighters,Normalizers,Featurizers,Selectors,Scalers,Classifiers,grid_roc_auc_mean,grid_roc_auc_std,grid_roc_auc_best_params,eval_roc_auc_mean,eval_roc_auc_std,eval_roc_auc_scores
+0,UCLAsource,origW,origN,origF,var_threshold,minmax,SVC_orig,NaN,NaN,NaN,0.56699999999999995,0.17607100840286002,[ 0.6   0.6   0.32  0.2   0.7   0.8   0.7   0.5   0.7   0.55]
+1,UCLAsource,origW,origN,low250,var_threshold,minmax,SVC_250,NaN,NaN,NaN,0.57733333333333337,0.12115004471040583,"[ 0.63333333  0.52        0.72        0.45        0.55        0.6         0.35
+  0.7         0.75        0.5       ]"
+2,UCLAsource,origW,origN,low260,var_threshold,minmax,SVC_260,NaN,NaN,NaN,0.67066666666666663,0.11321366230863365,"[ 0.56666667  0.68        0.76        0.7         0.5         0.8         0.5
+  0.65        0.85        0.7       ]"
+3,UCLAsource,origW,origN,low263,var_threshold,minmax,SVC_263,NaN,NaN,NaN,0.46333333333333326,0.17966635745180565,"[ 0.73333333  0.28        0.72        0.6         0.5         0.15        0.4
+  0.5         0.45        0.3       ]"
