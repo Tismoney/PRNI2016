@@ -1,0 +1,25 @@
+,Data,Weighters,Normalizers,Featurizers,Selectors,Scalers,Classifiers,grid_roc_auc_mean,grid_roc_auc_std,grid_roc_auc_best_params,eval_roc_auc_mean,eval_roc_auc_std,eval_roc_auc_scores
+0,UCLAsource,binar,origN,origF,var_threshold,origS,RF,0.66382978723404262,0.10842299339023717,"{'n_estimators': 50, 'max_features': 0.1, 'criterion': 'gini', 'max_depth': 3}",0.61566666666666658,0.19985578133577556,"[ 0.46666667  0.6         0.64        0.7         0.6         0.3         0.8
+  0.3         0.9         0.85      ]"
+1,UCLAsource,binar,origN,low0,var_threshold,origS,RF,0.61400709219858152,0.19976793852898797,"{'n_estimators': 100, 'max_features': 'log2', 'criterion': 'gini', 'max_depth': 5}",0.51700000000000002,0.24920072231034965,[ 0.6   0.92  0.4   0.25  0.2   0.8   0.2   0.8   0.45  0.55]
+2,UCLAsource,binar,origN,low10,var_threshold,origS,RF,0.66382978723404262,0.16941769094854794,"{'n_estimators': 50, 'max_features': 0.1, 'criterion': 'entropy', 'max_depth': 5}",0.47816666666666663,0.14189873149538723,"[ 0.56666667  0.72        0.42        0.55        0.225       0.375       0.55
+  0.6         0.475       0.3       ]"
+3,UCLAsource,binar,origN,low30,var_threshold,origS,RF,0.63599290780141837,0.17235168001660747,"{'n_estimators': 100, 'max_features': 'log2', 'criterion': 'entropy', 'max_depth': 5}",0.58933333333333326,0.23802800955629852,"[ 0.33333333  0.8         0.56        0.75        0.          0.7         0.8
+  0.6         0.75        0.6       ]"
+4,UCLAsource,binar,origN,low50,var_threshold,origS,RF,0.56914893617021278,0.19647239844296729,"{'n_estimators': 50, 'max_features': 'log2', 'criterion': 'entropy', 'max_depth': 3}",0.495,0.20051184503664615,[ 0.5   0.72  0.08  0.3   0.45  0.65  0.45  0.8   0.6   0.4 ]
+5,UCLAsource,binar,origN,low70,var_threshold,origS,RF,0.66125886524822697,0.21949163354629508,"{'n_estimators': 10, 'max_features': 0.01, 'criterion': 'entropy', 'max_depth': 10}",0.50816666666666666,0.13435121882588189,"[ 0.56666667  0.8         0.44        0.35        0.55        0.425       0.375
+  0.575       0.625       0.375     ]"
+6,UCLAsource,binar,origN,low100,var_threshold,origS,RF,0.66799645390070927,0.11548478858293228,"{'n_estimators': 10, 'max_features': 'log2', 'criterion': 'gini', 'max_depth': 10}",0.49483333333333335,0.22167224303762825,"[ 0.18333333  0.56        0.28        0.3         0.475       0.5         0.425
+  0.95        0.8         0.475     ]"
+7,UCLAsource,binar,origN,low120,var_threshold,origS,RF,0.6163120567375886,0.28363384900925992,"{'n_estimators': 50, 'max_features': 0.01, 'criterion': 'entropy', 'max_depth': 5}",0.44366666666666665,0.20548560371309066,"[ 0.36666667  0.76        0.56        0.375       0.3         0.725       0.225
+  0.675       0.2         0.25      ]"
+8,UCLAsource,binar,origN,low150,var_threshold,origS,RF,0.61117021276595751,0.10641754757496352,"{'n_estimators': 10, 'max_features': 0.01, 'criterion': 'gini', 'max_depth': 5}",0.51466666666666661,0.17471214420678755,"[ 0.41666667  0.34        0.94        0.45        0.6         0.325       0.4
+  0.45        0.6         0.625     ]"
+9,UCLAsource,binar,origN,low170,var_threshold,origS,RF,0.65106382978723409,0.18619635074872237,"{'n_estimators': 50, 'max_features': 'log2', 'criterion': 'gini', 'max_depth': 5}",0.44133333333333341,0.2127815781499893,"[ 0.33333333  0.88        0.2         0.65        0.65        0.5         0.3
+  0.2         0.3         0.4       ]"
+10,UCLAsource,binar,origN,low200,var_threshold,origS,RF,0.62039007092198584,0.24168016904465131,"{'n_estimators': 10, 'max_features': 0.01, 'criterion': 'entropy', 'max_depth': 5}",0.50683333333333347,0.13811921179425646,"[ 0.68333333  0.44        0.22        0.625       0.575       0.5         0.65
+  0.525       0.325       0.525     ]"
+11,UCLAsource,binar,origN,low220,var_threshold,origS,RF,0.64219858156028375,0.11751721687805344,"{'n_estimators': 100, 'max_features': 'log2', 'criterion': 'gini', 'max_depth': 5}",0.47633333333333339,0.27886854728826388,"[ 0.63333333  0.76        0.52        0.05        0.25        0.7         0.25
+  0.3         0.3         1.        ]"
+12,UCLAsource,binar,origN,low250,var_threshold,origS,RF,0.56063829787234043,0.16587491128210874,"{'n_estimators': 10, 'max_features': 'log2', 'criterion': 'entropy', 'max_depth': 3}",0.44066666666666671,0.19803366717135079,"[ 0.36666667  0.64        0.6         0.          0.55        0.55        0.65
+  0.2         0.45        0.4       ]"
