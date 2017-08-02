@@ -159,7 +159,7 @@ def get_grid_and_score(X, y, grid_cv, eval_cv, X_ts = None, y_ts = None, collect
     pipeline = Pipeline(steps)
 
     param_grid = dict(classifier__penalty=['l1'], 
-                      classifier__C      =[0.1, 0.5, 1.0]
+                      classifier__C      =[0.1, 0.25, 0.5, 0.75, 1.0]
                      )
     scoring = 'roc_auc'
     grid_clf = GridSearchCV(estimator=pipeline, param_grid=param_grid, scoring=scoring, n_jobs=-1, cv=grid_cv)
@@ -199,6 +199,7 @@ class ChooseSubsection:
         num_iteration   = 300,
         learning_rate   = 0.3,
         print_log       = True,
+        max_vec         = -1
     ):
         self.grid_cv        = grid_cv
         self.eval_cv        = eval_cv
@@ -210,46 +211,43 @@ class ChooseSubsection:
         self.num_iteration  = num_iteration
         self.learning_rate  = learning_rate
         self.table_score    = []
-        self.print_log      = print_log  
+        self.print_log      = print_log
+        self.max_vec        = max_vec
         
-        #self.data           = None
-        #self.X_train        = None
-        #self.X_test         = None
-        #self.y_train        = None
-        #self.y_test         = None
-        #self.X_tr           = None
-        #self.X_ts           = None
-
-
     def init_data(self):
 
         self.data = '../Data/dti/'
         self.data = Transformer(get_autism).fit_transform(self.data)
         self.data = Transformer(binar_norm).fit_transform(self.data)
         self.data = Transformer(matrix_eig).fit_transform(self.data)
+        self.X = self.data['X_vec']
+        self.y = self.data['y']
 
     def split_data(self):
 
-        X = self.data['X_vec']
-        y = self.data['y']
-        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y, 
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, 
                             test_size=self.test_size, random_state =  int(time.time()))
 
-    def fit_choose_vec(self):
+    def fit_choose_vec(self, X_train = None, X_test = None, y_train = None, y_test = None):
 
         self.table_score = []
 
-        X_tr, X_bag = split_features(self.X_train, 3, 3)
-        X_ts, X_tag = split_features(self.X_test , 3, 3)
+        #if X_train == None: X_train = self.X_train
+        #if X_test  == None: X_train = self.X_test
+        #if y_train == None: X_train = self.X_train
+        #if y_test  == None: X_train = self.X_test
+
+        X_tr, X_bag = split_features(X_train, 3, 3)
+        X_ts, X_tag = split_features(X_test , 3, 3)
         ar_to_improve = np.zeros(X_bag.shape[0])
-        self.table_score.append(get_grid_and_score(X_tr, self.y_train,
+        self.table_score.append(get_grid_and_score(X_tr, y_train,
                              self.grid_cv, self.eval_cv))
 
         if self.print_log: print "INIT\t SCORE: {:.3f}\t".format(self.table_score[0])
 
         for i in tqdm(range(self.num_iteration)):
             ind = supposed_index(X_bag)
-            score = get_grid_and_score(join_features(X_tr, X_bag[ind]), self.y_train,
+            score = get_grid_and_score(join_features(X_tr, X_bag[ind]), y_train,
                                         self.grid_cv, self.eval_cv)
             if score > self.table_score[-1]:
                 ar_to_improve[ind] += self.learning_rate * score
@@ -263,9 +261,14 @@ class ChooseSubsection:
                     self.table_score.append(score)
                     if self.print_log: 
                         print "epoch # {}\t SCORE: {:.3f}\t ADD: {}\n".format(i, score, j)
+            if self.max_vec != -1:
+                if (self.k_tr + (len(self.table_score)-1)*self.k_bag) >= self.max_vec:
+                    break
 
         self.X_tr = X_tr
+        self.y_train = y_train
         self.X_ts = X_ts
+        self.y_test = y_test 
 
     def get_result(self, print_box = True, save_mode = False):
         all_scores = get_grid_and_score(self.X_tr, self.y_train, 
@@ -273,3 +276,15 @@ class ChooseSubsection:
                                     self.X_ts, self.y_test, self.collect_n)
 
         if print_box: print_boxplot(self.table_score, all_scores, save = save_mode)
+        return all_scores[1]
+
+    def get_seed_result(self):
+
+        test_cv = StratifiedKFold(n_splits=10, shuffle=True, random_state =  int(time.time()))
+        #self.test_index = []
+        score = []
+        for train_index, test_index in test_cv.split(self.X, self.y):
+            self.fit_choose_vec(self.X[train_index], self.X[test_index],
+                         self.y[train_index], self.y[test_index])
+            score.append(self.get_result())
+        print "REAL SCORE: {}",format(np.mean(score))
