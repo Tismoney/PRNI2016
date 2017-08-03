@@ -159,7 +159,8 @@ def get_grid_and_score(X, y, grid_cv, eval_cv, X_ts = None, y_ts = None, collect
     pipeline = Pipeline(steps)
 
     param_grid = dict(classifier__penalty=['l1'], 
-                      classifier__C      =[0.1, 0.25, 0.5, 0.75, 1.0]
+                      #classifier__C      =[0.1, 0.25, 0.5, 0.75, 1.0]
+                      classifier__C      =[0.1, 0.5, 1.0]
                      )
     scoring = 'roc_auc'
     grid_clf = GridSearchCV(estimator=pipeline, param_grid=param_grid, scoring=scoring, n_jobs=-1, cv=grid_cv)
@@ -278,13 +279,14 @@ class ChooseSubsection:
         if print_box: print_boxplot(self.table_score, all_scores, save = save_mode)
         return all_scores[1]
 
-    def get_seed_result(self):
+    def get_seed_result(self, index):
 
-        test_cv = StratifiedKFold(n_splits=10, shuffle=True, random_state =  int(time.time()))
+        #test_cv = StratifiedKFold(n_splits=10, shuffle=True, random_state =  int(time.time()))
         #self.test_index = []
         score = []
-        for train_index, test_index in test_cv.split(self.X, self.y):
+        for train_index, test_index in index:#test_cv.split(self.X, self.y):
             self.fit_choose_vec(self.X[train_index], self.X[test_index],
                          self.y[train_index], self.y[test_index])
             score.append(self.get_result())
-        print "REAL SCORE: {}",format(np.mean(score))
+        print "REAL SCORE: {}".format(np.mean(score))
+        return np.mean(score)
