@@ -109,13 +109,14 @@ params = {
 
 plt.rcParams.update(params)
 
-def print_boxplot(data1, data2, figsize = (10.5,6.5), save = False):
+def print_boxplot(data1_1, data1_2, data2, figsize = (10.5,6.5), save = False):
     fig, (ax1, ax2) = plt.subplots(1, 2, sharey=True, figsize=figsize)
     
     bp  = ax2.boxplot(data2, 0, '+')
     
-    x = np.arange(len(data1))
-    ax1.plot(x, data1)
+    x = np.arange(len(data1_1))
+    ax1.plot(x, data1_1, 'b')
+    ax1.plot(x, data1_2, 'r')
     
     plt.setp(bp['boxes'],    color='DarkGreen')
     plt.setp(bp['whiskers'], color='DarkOrange', linestyle = '-')
@@ -132,7 +133,8 @@ def print_boxplot(data1, data2, figsize = (10.5,6.5), save = False):
     if save: fig.savefig('fig.png', dpi = 300)        
 
 def split_features(X, k_tr = 3, k_bag = 3, size_dim = 264):
-    X_tr = X[:,-size_dim * k_tr:]
+    if k_tr > 0: X_tr = X[:,-size_dim * k_tr:]
+    elif k_tr == 0: X_tr = []
     #print X_tr.shape, size_dim * k_tr
     X_bag = []
     for i in range( (size_dim - k_tr) / k_bag ):
@@ -152,7 +154,11 @@ def supposed_index(X_bag):
     return ind
 
 def join_features(X_tr, X_i):
-    return np.concatenate((X_tr, X_i), axis = 1)
+
+    if np.array_equal(X_tr, []):
+        return X_i
+    else:
+        return np.concatenate((X_tr, X_i), axis = 1)
 
 def get_grid_and_score(X, y, grid_cv, eval_cv, X_ts = None, y_ts = None, collect_n = 0):
     steps = [('selector', VarianceThreshold()), ('scaler', MinMaxScaler()), ('classifier', LogisticRegression())] 
@@ -171,7 +177,12 @@ def get_grid_and_score(X, y, grid_cv, eval_cv, X_ts = None, y_ts = None, collect
     pipeline = Pipeline(steps)
     if not collect_n:
         scores = cross_val_score(pipeline, X, y, scoring=scoring, cv=eval_cv, n_jobs=-1)
-        return np.mean(scores)
+        
+        pipeline.fit(X, y)
+        y_pr = pipeline.predict(X_ts)
+        real_score = roc_auc_score(y_ts, y_pr)
+
+        return np.mean(scores), real_score
     if collect_n:
         scores = []
         rd = eval_cv.random_state
@@ -200,7 +211,8 @@ class ChooseSubsection:
         num_iteration   = 300,
         learning_rate   = 0.3,
         print_log       = True,
-        max_vec         = -1
+        max_vec         = -1,
+        porog           = 0
     ):
         self.grid_cv        = grid_cv
         self.eval_cv        = eval_cv
@@ -214,6 +226,7 @@ class ChooseSubsection:
         self.table_score    = []
         self.print_log      = print_log
         self.max_vec        = max_vec
+        self.porog          = porog
         
     def init_data(self):
 
@@ -232,25 +245,34 @@ class ChooseSubsection:
     def fit_choose_vec(self, X_train = None, X_test = None, y_train = None, y_test = None):
 
         self.table_score = []
+        self.table_real  = []
 
         #if X_train == None: X_train = self.X_train
         #if X_test  == None: X_train = self.X_test
         #if y_train == None: X_train = self.X_train
         #if y_test  == None: X_train = self.X_test
 
-        X_tr, X_bag = split_features(X_train, 3, 3)
-        X_ts, X_tag = split_features(X_test , 3, 3)
+        X_tr, X_bag = split_features(X_train, self.k_tr, self.k_bag)
+        X_ts, X_tag = split_features(X_test , self.k_tr, self.k_bag)
         ar_to_improve = np.zeros(X_bag.shape[0])
-        self.table_score.append(get_grid_and_score(X_tr, y_train,
-                             self.grid_cv, self.eval_cv))
+        
+        score, real_score = get_grid_and_score(X_tr, y_train,
+                             self.grid_cv, self.eval_cv, X_ts, y_test)
+
+        #score = 0.5
+        #real_score = 0.5
+
+        self.table_score.append(score)
+        self.table_real.append(real_score)
 
         if self.print_log: print "INIT\t SCORE: {:.3f}\t".format(self.table_score[0])
 
         for i in tqdm(range(self.num_iteration)):
             ind = supposed_index(X_bag)
-            score = get_grid_and_score(join_features(X_tr, X_bag[ind]), y_train,
-                                        self.grid_cv, self.eval_cv)
-            if score > self.table_score[-1]:
+            score, real_score = get_grid_and_score(join_features(X_tr, X_bag[ind]), y_train,
+                                        self.grid_cv, self.eval_cv, 
+                                        join_features(X_ts, X_tag[ind]), y_test)
+            if (score - self.table_score[-1]) > self.porog:
                 ar_to_improve[ind] += self.learning_rate * score
             for j, ar in enumerate(ar_to_improve):
                 if ar >= 1:
@@ -260,6 +282,7 @@ class ChooseSubsection:
                     X_tag = np.delete(X_tag, j, axis=0) 
                     ar_to_improve = np.delete(ar_to_improve, j, axis=0)
                     self.table_score.append(score)
+                    self.table_real.append(real_score)
                     if self.print_log: 
                         print "epoch # {}\t SCORE: {:.3f}\t ADD: {}\n".format(i, score, j)
             if self.max_vec != -1:
@@ -276,7 +299,7 @@ class ChooseSubsection:
                                     self.grid_cv, self.eval_cv,  
                                     self.X_ts, self.y_test, self.collect_n)
 
-        if print_box: print_boxplot(self.table_score, all_scores, save = save_mode)
+        if print_box: print_boxplot(self.table_score, self.table_real, all_scores, save = save_mode)
         return all_scores[1]
 
     def get_seed_result(self, index):
