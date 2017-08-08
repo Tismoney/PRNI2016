@@ -142,10 +142,10 @@ class Subsection_up(object):
         self.max_porog      = max_porog
         self.param_grid     = param_grid
                 
-    def print_boxplot(self, data1, data2, latexmode = True, figsize = (10.5,6.5), save = False, filename = 'fig.png'):
+    def print_boxplot(self, data1, data2, latexmode = False, figsize = (10.5,6.5), save = False, filename = 'fig.png'):
         
         #Switch on latexstyle
-        if latexmode: 
+        if latexmode == True: 
             params = {
                 'text.usetex'         : True,
                 'text.latex.unicode'  : True,
@@ -239,16 +239,11 @@ class Subsection_up(object):
 
     def get_grid_and_score(self, X_train, y_train, X_test, y_test, collect_n=0):
         
-        steps = [('selector', VarianceThreshold()), ('scaler', MinMaxScaler()), ('classifier', LogisticRegression())] 
+        steps = [('selector', VarianceThreshold()), ('scaler', MinMaxScaler()),('classifier', LogisticRegression(penalty='l1', C=0.5, max_iter=50))] 
         pipeline = Pipeline(steps)
         scoring = 'roc_auc'
-        grid_clf = GridSearchCV(estimator=pipeline, param_grid=self.param_grid, scoring=scoring, n_jobs=-1, cv=self.grid_cv)
-        grid_clf.fit(X_train, y_train)
-        steps[-1] = steps[-1][0], grid_clf.best_estimator_
-        pipeline = Pipeline(steps)
-
         if not collect_n:
-            scores = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.eval_cv, n_jobs=-1)
+            scores = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.grid_cv, n_jobs=-1)
             pipeline.fit(X_train, y_train)
             y_pr = pipeline.predict(X_test)
             real_score = roc_auc_score(y_test, y_pr)
@@ -259,7 +254,7 @@ class Subsection_up(object):
             rd = self.eval_cv.random_state
             for i in range(collect_n):
                 self.eval_cv.random_state = i
-                sc = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.eval_cv, n_jobs=-1)
+                sc = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.grid_cv, n_jobs=-1)
                 scores.append(np.mean(sc))
             self.eval_cv.random_state = rd
             pipeline.fit(X_train, y_train)
@@ -271,8 +266,7 @@ class Subsection_up(object):
     def get_result(self, index = []):
 
         if np.array_equal(index, []):
-            test_cv = StratifiedKFold(n_splits=10, shuffle=True, random_state =  int(time.time()))
-            index = test_cv.split(self.X, self.y)
+            index = self.eval_cv.split(self.X, self.y)
 
         self.test_index = []
         score = []
@@ -286,11 +280,8 @@ class Subsection_up(object):
 
         print "REAL SCORE: {}".format(np.mean(score))
         return np.mean(score)
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 0cb69a36787e8ce8dc44bf255456c115d8a744b8
+    
+    
 class Subsection_low(object):
 
     def __init__(self, eval_cv=None, grid_cv=None):
@@ -334,10 +325,10 @@ class Subsection_low(object):
         self.max_porog      = max_porog
         self.param_grid     = param_grid
 
-    def print_boxplot(self, data1, data2, latexmode = True, figsize = (10.5,6.5), save = False, filename = 'fig.png'):
+    def print_boxplot(self, data1, data2, latexmode = False, figsize = (10.5,6.5), save = False, filename = 'fig.png'):
         
         #Switch on latexstyle
-        if latexmode: 
+        if latexmode == True: 
             params = {
                 'text.usetex'         : True,
                 'text.latex.unicode'  : True,
@@ -392,24 +383,12 @@ class Subsection_low(object):
         self.table_score = []
         self.table_real  = []
 
-<<<<<<< HEAD
-        self.table_score = []
-        self.table_real  = []
-
-        X_bag = split_features(X_train, self.k_init, self.k_split)
-        X_tag = split_features(X_test , self.k_init, self.k_split)
-        ar_to_improve = np.zeros(X_bag.shape[0])
-        
-        score, real_score = self.get_grid_and_score(np.concatenate(X_tr), y_train,
-                                                         np.concatenate(X_ts), y_test)
-=======
         X_bag = split_features(X_train, self.k_init, self.k_split)
         X_tag = split_features(X_test , self.k_init, self.k_split)
         ar_to_improve = np.zeros(X_bag.shape[0])
 
         score, real_score = self.get_grid_and_score(np.concatenate(X_bag, axis=1), y_train,
                                                     np.concatenate(X_tag, axis=1), y_test)
->>>>>>> 0cb69a36787e8ce8dc44bf255456c115d8a744b8
         self.table_score.append(score)
         self.table_real.append(real_score)
         print "INIT\t SCORE: {:.3f}\t".format(self.table_score[0])
@@ -425,17 +404,7 @@ class Subsection_low(object):
                 X_tag = np.delete(X_tag, ind, axis=0) 
                 ar_to_improve = np.delete(ar_to_improve, ind, axis=0)
                 self.table_score.append(score)
-                self.table_real.append(real_score) 
-<<<<<<< HEAD
-                print "epoch # {}\t SCORE: {:.3f}\t ADD: {}\n".format(i, score, ind)
-            if self.max_vec != -1:
-                if (self.k_tr + (len(self.table_score)-1)*self.k_bag) >= self.max_vec:
-                    break
-
-        self.X_tr = np.concatenate(X_bag)
-        self.y_train = y_train
-        self.X_ts = np.concatenate(X_tag)
-=======
+                self.table_real.append(real_score)
                 print "epoch # {}\t SCORE: {:.3f}\t DEL: {}\n".format(i, score, ind)
             if self.min_vec != -1:
                 if (self.k_init - (len(self.table_score)-1)*self.k_split) <= self.min_vec:
@@ -444,21 +413,15 @@ class Subsection_low(object):
         self.X_tr = np.concatenate(X_bag, axis=1)
         self.y_train = y_train
         self.X_ts = np.concatenate(X_tag, axis=1)
->>>>>>> 0cb69a36787e8ce8dc44bf255456c115d8a744b8
         self.y_test = y_test 
 
     def get_grid_and_score(self, X_train, y_train, X_test, y_test, collect_n=0):
         
-        steps = [('selector', VarianceThreshold()), ('scaler', MinMaxScaler()), ('classifier', LogisticRegression())] 
+        steps = [('selector', VarianceThreshold()), ('scaler', MinMaxScaler()),('classifier', LogisticRegression(penalty='l1', C=0.5, max_iter=50))] 
         pipeline = Pipeline(steps)
         scoring = 'roc_auc'
-        grid_clf = GridSearchCV(estimator=pipeline, param_grid=self.param_grid, scoring=scoring, n_jobs=-1, cv=self.grid_cv)
-        grid_clf.fit(X_train, y_train)
-        steps[-1] = steps[-1][0], grid_clf.best_estimator_
-        pipeline = Pipeline(steps)
-
         if not collect_n:
-            scores = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.eval_cv, n_jobs=-1)
+            scores = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.grid_cv, n_jobs=-1)
             pipeline.fit(X_train, y_train)
             y_pr = pipeline.predict(X_test)
             real_score = roc_auc_score(y_test, y_pr)
@@ -469,7 +432,7 @@ class Subsection_low(object):
             rd = self.eval_cv.random_state
             for i in range(collect_n):
                 self.eval_cv.random_state = i
-                sc = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.eval_cv, n_jobs=-1)
+                sc = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.grid_cv, n_jobs=-1)
                 scores.append(np.mean(sc))
             self.eval_cv.random_state = rd
             pipeline.fit(X_train, y_train)
@@ -480,8 +443,7 @@ class Subsection_low(object):
      
     def get_result(self, index = []):
         if np.array_equal(index, []):
-            test_cv = StratifiedKFold(n_splits=10, shuffle=True, random_state =  int(time.time()))
-            index = test_cv.split(self.X, self.y)
+            index = self.eval_cv.split(self.X, self.y)
 
         self.test_index = []
         score = []
@@ -518,21 +480,21 @@ class Subsection_k(object):
         self.y = self.data['y']
 
     def init_params(self,
-            k_train         = 40,
+            k_init          = 40,
             collect_n       = 50,
             size_dim        = 264,
             param_grid      = dict(),
             ):
 
-        self.k_train        = k_train
+        self.k_init         = k_init
         self.collect_n      = collect_n
         self.size_dim       = size_dim
         self.param_grid     = param_grid
 
-    def print_boxplot(self, data, latexmode = True, figsize = (10.5,6.5), save = False, filename = 'fig.png'):
+    def print_boxplot(self, data, latexmode = False, figsize = (10.5,6.5), save = False, filename = 'fig.png'):
         
         #Switch on latexstyle
-        if latexmode: 
+        if latexmode == True: 
             params = {
                 'text.usetex'         : True,
                 'text.latex.unicode'  : True,
@@ -561,7 +523,7 @@ class Subsection_k(object):
     def choose_vec(self, X_train, X_test, y_train, y_test):
 
         def split_features(X, k_init = 40, size_dim = 264):
-            X_bag = X[:, -k_init*size_dim]
+            X_bag = X[:, -k_init*size_dim:]
             return X_bag
 
         self.X_tr = split_features(X_train, self.k_init)
@@ -571,19 +533,15 @@ class Subsection_k(object):
 
     def get_grid_and_score(self, X_train, y_train, X_test, y_test, collect_n=0):
         
-        steps = [('selector', VarianceThreshold()), ('scaler', MinMaxScaler()), ('classifier', LogisticRegression())] 
+        steps = [('selector', VarianceThreshold()), ('scaler', MinMaxScaler()),('classifier', LogisticRegression(penalty='l1', C=0.5, max_iter=50))] 
         pipeline = Pipeline(steps)
         scoring = 'roc_auc'
-        grid_clf = GridSearchCV(estimator=pipeline, param_grid=self.param_grid, scoring=scoring, n_jobs=-1, cv=self.grid_cv)
-        grid_clf.fit(X_train, y_train)
-        steps[-1] = steps[-1][0], grid_clf.best_estimator_
-        pipeline = Pipeline(steps)
-
         if not collect_n:
-            scores = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.eval_cv, n_jobs=-1)
+            scores = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.grid_cv, n_jobs=-1)
             pipeline.fit(X_train, y_train)
             y_pr = pipeline.predict(X_test)
             real_score = roc_auc_score(y_test, y_pr)
+            print "REAL SCORE: {}".format(real_score)
             return np.mean(scores), real_score
             
         if collect_n:
@@ -591,7 +549,7 @@ class Subsection_k(object):
             rd = self.eval_cv.random_state
             for i in range(collect_n):
                 self.eval_cv.random_state = i
-                sc = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.eval_cv, n_jobs=-1)
+                sc = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.grid_cv, n_jobs=-1)
                 scores.append(np.mean(sc))
             self.eval_cv.random_state = rd
             pipeline.fit(X_train, y_train)
@@ -602,7 +560,7 @@ class Subsection_k(object):
         
     def get_result(self, index = []):
         if np.array_equal(index, []):
-            index = self.grid_cv.split(self.X, self.y)
+            index = self.eval_cv.split(self.X, self.y)
 
         self.test_index = []
         score = []
@@ -610,9 +568,9 @@ class Subsection_k(object):
             self.choose_vec(self.X[train_index], self.X[test_index],
                          self.y[train_index], self.y[test_index])
             box_score, real_score = self.get_grid_and_score(self.X_tr, self.y_train,
-                                self.X_ts, self.y_test, collect_n=self.collect_n)
+                                self.X_ts, self.y_test, collect_n=0)
             score.append(real_score)
-            self.print_boxplot(box_score, real_score)
+            #self.print_boxplot(box_score, real_score)
 
         print "REAL SCORE: {}".format(np.mean(score))
         return np.mean(score)
