@@ -287,8 +287,7 @@ class Subsection_up(object):
         print "REAL SCORE: {}".format(np.mean(score))
         return np.mean(score)
 
-
-class Subcetion_low(object):
+class Subsection_low(object):
 
     def __init__(self, eval_cv=None, grid_cv=None):
 
@@ -386,40 +385,40 @@ class Subcetion_low(object):
             X_tmp = np.delete(X_bag, ind, axis=0)
             return np.concatenate(X_tmp)
 
-            self.table_score = []
-            self.table_real  = []
+        self.table_score = []
+        self.table_real  = []
 
-            X_bag = split_features(X_train, self.k_init, self.k_split)
-            X_tag = split_features(X_test , self.k_init, self.k_split)
-            ar_to_improve = np.zeros(X_bag.shape[0])
-            
-            score, real_score = self.get_grid_and_score(np.concatenate(X_tr), y_train,
-                                                             np.concatenate(X_ts), y_test)
-            self.table_score.append(score)
-            self.table_real.append(real_score)
-            print "INIT\t SCORE: {:.3f}\t".format(self.table_score[0])
+        X_bag = split_features(X_train, self.k_init, self.k_split)
+        X_tag = split_features(X_test , self.k_init, self.k_split)
+        ar_to_improve = np.zeros(X_bag.shape[0])
+        
+        score, real_score = self.get_grid_and_score(np.concatenate(X_tr), y_train,
+                                                         np.concatenate(X_ts), y_test)
+        self.table_score.append(score)
+        self.table_real.append(real_score)
+        print "INIT\t SCORE: {:.3f}\t".format(self.table_score[0])
 
-            for i in tqdm(range(self.num_iteration)):
-                ind = supposed_index(X_bag.shape[0])
-                score, real_score = self.get_grid_and_score(del_features(X_bag, ind), y_train, 
-                                                            del_features(X_tag, ind), y_test)
-                if (score - self.table_score[-1]) > self.max_porog:
-                    ar_to_improve[ind] += self.learning_rate
-                if ar_to_improve[ind] >= 1:
-                    X_bag = np.delete(X_bag, ind, axis=0)
-                    X_tag = np.delete(X_tag, ind, axis=0) 
-                    ar_to_improve = np.delete(ar_to_improve, ind, axis=0)
-                    self.table_score.append(score)
-                    self.table_real.append(real_score) 
-                    print "epoch # {}\t SCORE: {:.3f}\t ADD: {}\n".format(i, score, ind)
-                if self.max_vec != -1:
-                    if (self.k_tr + (len(self.table_score)-1)*self.k_bag) >= self.max_vec:
-                        break
+        for i in tqdm(range(self.num_iteration)):
+            ind = supposed_index(X_bag.shape[0])
+            score, real_score = self.get_grid_and_score(del_features(X_bag, ind), y_train, 
+                                                        del_features(X_tag, ind), y_test)
+            if (score - self.table_score[-1]) > self.max_porog:
+                ar_to_improve[ind] += self.learning_rate
+            if ar_to_improve[ind] >= 1:
+                X_bag = np.delete(X_bag, ind, axis=0)
+                X_tag = np.delete(X_tag, ind, axis=0) 
+                ar_to_improve = np.delete(ar_to_improve, ind, axis=0)
+                self.table_score.append(score)
+                self.table_real.append(real_score) 
+                print "epoch # {}\t SCORE: {:.3f}\t ADD: {}\n".format(i, score, ind)
+            if self.max_vec != -1:
+                if (self.k_tr + (len(self.table_score)-1)*self.k_bag) >= self.max_vec:
+                    break
 
-            self.X_tr = np.concatenate(X_bag)
-            self.y_train = y_train
-            self.X_ts = np.concatenate(X_tag)
-            self.y_test = y_test 
+        self.X_tr = np.concatenate(X_bag)
+        self.y_train = y_train
+        self.X_ts = np.concatenate(X_tag)
+        self.y_test = y_test 
 
     def get_grid_and_score(self, X_train, y_train, X_test, y_test, collect_n=0):
         
@@ -466,6 +465,127 @@ class Subcetion_low(object):
                                 self.X_ts, self.y_test, collect_n=self.collect_n)
             score.append(real_score)
             self.print_boxplot([self.table_score, self.table_real], [box_score, real_score])
+
+        print "REAL SCORE: {}".format(np.mean(score))
+        return np.mean(score)
+
+class Subsection_k(object):
+
+    def __init__(self, eval_cv=None, grid_cv=None):
+
+        self.eval_cv = eval_cv
+        self.grid_cv = grid_cv
+
+    def init_data(self, orig=False, binar=True, spectral=False):
+
+        self.data = '../Data/dti/'
+        self.data = Transformer(get_autism).fit_transform(self.data)
+        if not orig:
+            if binar: 
+                self.data = Transformer(binar_norm).fit_transform(self.data)
+            if spectral:
+                self.data = Transformer(wbysqdist).fit_transform(self.data)
+                self.data = Transformer(spectral_norm).fit_transform(self.data)
+        self.data = Transformer(matrix_eig).fit_transform(self.data)
+        self.X = self.data['X_vec']
+        self.y = self.data['y']
+
+    def init_params(self,
+            k_train         = 40,
+            collect_n       = 50,
+            size_dim        = 264,
+            param_grid      = dict(),
+            ):
+
+        self.k_train        = k_train
+        self.collect_n      = collect_n
+        self.size_dim       = size_dim
+        self.param_grid     = param_grid
+
+    def print_boxplot(self, data, latexmode = True, figsize = (10.5,6.5), save = False, filename = 'fig.png'):
+        
+        #Switch on latexstyle
+        if latexmode: 
+            params = {
+                'text.usetex'         : True,
+                'text.latex.unicode'  : True,
+                'text.latex.preamble' : r"\usepackage[T2A]{fontenc}",
+                'font.size'           : 15,
+                'font.family'         : 'lmodern'
+                }
+            plt.rcParams.update(params)
+        #Figure
+        fig, ax = plt.subplots(1, 1, sharey=True, figsize=figsize)
+        #Plot boxplot
+        bp  = ax.boxplot(data, 0, '+')
+        plt.setp(bp['boxes'],    color='DarkGreen')
+        plt.setp(bp['whiskers'], color='DarkOrange', linestyle = '-')
+        plt.setp(bp['medians'],  color='DarkBlue')
+        plt.setp(bp['caps'],     color='Gray')
+        #Set title
+        ax.set_title(r'BoxPlot')
+        ax.set_ylabel(r'ROC AUC mean')
+        ax.yaxis.grid(True, linestyle='-', which='major', color='lightgrey',alpha=0.5)
+        ax.yaxis.grid(True, linestyle='-', which='major', color='lightgrey',alpha=0.5)
+        
+        plt.show()
+        if save: fig.savefig(filename, dpi = 450)        
+
+    def choose_vec(self, X_train, X_test, y_train, y_test):
+
+        def split_features(X, k_init = 40, size_dim = 264):
+            X_bag = X[:, -k_init*size_dim]
+            return X_bag
+
+        self.X_tr = split_features(X_train, self.k_init)
+        self.y_train = y_train
+        self.X_ts = split_features(X_test , self.k_init)
+        self.y_test = y_test 
+
+    def get_grid_and_score(self, X_train, y_train, X_test, y_test, collect_n=0):
+        
+        steps = [('selector', VarianceThreshold()), ('scaler', MinMaxScaler()), ('classifier', LogisticRegression())] 
+        pipeline = Pipeline(steps)
+        scoring = 'roc_auc'
+        grid_clf = GridSearchCV(estimator=pipeline, param_grid=self.param_grid, scoring=scoring, n_jobs=-1, cv=self.grid_cv)
+        grid_clf.fit(X_train, y_train)
+        steps[-1] = steps[-1][0], grid_clf.best_estimator_
+        pipeline = Pipeline(steps)
+
+        if not collect_n:
+            scores = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.eval_cv, n_jobs=-1)
+            pipeline.fit(X_train, y_train)
+            y_pr = pipeline.predict(X_test)
+            real_score = roc_auc_score(y_test, y_pr)
+            return np.mean(scores), real_score
+            
+        if collect_n:
+            scores = []
+            rd = self.eval_cv.random_state
+            for i in range(collect_n):
+                self.eval_cv.random_state = i
+                sc = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.eval_cv, n_jobs=-1)
+                scores.append(np.mean(sc))
+            self.eval_cv.random_state = rd
+            pipeline.fit(X_train, y_train)
+            y_pr = pipeline.predict(X_test)
+            real_score = roc_auc_score(y_test, y_pr)
+            print "REAL SCORE: {}".format(real_score)
+            return scores, real_score
+        
+    def get_result(self, index = []):
+        if np.array_equal(index, []):
+            index = self.grid_cv.split(self.X, self.y)
+
+        self.test_index = []
+        score = []
+        for train_index, test_index in index:#test_cv.split(self.X, self.y):
+            self.choose_vec(self.X[train_index], self.X[test_index],
+                         self.y[train_index], self.y[test_index])
+            box_score, real_score = self.get_grid_and_score(self.X_tr, self.y_train,
+                                self.X_ts, self.y_test, collect_n=self.collect_n)
+            score.append(real_score)
+            self.print_boxplot(box_score, real_score)
 
         print "REAL SCORE: {}".format(np.mean(score))
         return np.mean(score)
