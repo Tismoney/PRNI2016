@@ -287,6 +287,10 @@ class Subsection_up(object):
         print "REAL SCORE: {}".format(np.mean(score))
         return np.mean(score)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0cb69a36787e8ce8dc44bf255456c115d8a744b8
 class Subsection_low(object):
 
     def __init__(self, eval_cv=None, grid_cv=None):
@@ -376,15 +380,19 @@ class Subsection_low(object):
 
         def supposed_index(size):
             size = size - 1
-            ind = int(size - size * random.expovariate(1) / 5)
+            ind = int(size * random.expovariate(1) / 5)
             if ind > size : ind = size
             if ind < 0  : ind = 0
             return ind
 
         def del_features(X_bag, ind):
             X_tmp = np.delete(X_bag, ind, axis=0)
-            return np.concatenate(X_tmp)
+            return np.concatenate(X_tmp, axis=1)
 
+        self.table_score = []
+        self.table_real  = []
+
+<<<<<<< HEAD
         self.table_score = []
         self.table_real  = []
 
@@ -394,6 +402,14 @@ class Subsection_low(object):
         
         score, real_score = self.get_grid_and_score(np.concatenate(X_tr), y_train,
                                                          np.concatenate(X_ts), y_test)
+=======
+        X_bag = split_features(X_train, self.k_init, self.k_split)
+        X_tag = split_features(X_test , self.k_init, self.k_split)
+        ar_to_improve = np.zeros(X_bag.shape[0])
+
+        score, real_score = self.get_grid_and_score(np.concatenate(X_bag, axis=1), y_train,
+                                                    np.concatenate(X_tag, axis=1), y_test)
+>>>>>>> 0cb69a36787e8ce8dc44bf255456c115d8a744b8
         self.table_score.append(score)
         self.table_real.append(real_score)
         print "INIT\t SCORE: {:.3f}\t".format(self.table_score[0])
@@ -410,6 +426,7 @@ class Subsection_low(object):
                 ar_to_improve = np.delete(ar_to_improve, ind, axis=0)
                 self.table_score.append(score)
                 self.table_real.append(real_score) 
+<<<<<<< HEAD
                 print "epoch # {}\t SCORE: {:.3f}\t ADD: {}\n".format(i, score, ind)
             if self.max_vec != -1:
                 if (self.k_tr + (len(self.table_score)-1)*self.k_bag) >= self.max_vec:
@@ -418,6 +435,16 @@ class Subsection_low(object):
         self.X_tr = np.concatenate(X_bag)
         self.y_train = y_train
         self.X_ts = np.concatenate(X_tag)
+=======
+                print "epoch # {}\t SCORE: {:.3f}\t DEL: {}\n".format(i, score, ind)
+            if self.min_vec != -1:
+                if (self.k_init - (len(self.table_score)-1)*self.k_split) <= self.min_vec:
+                    break
+
+        self.X_tr = np.concatenate(X_bag, axis=1)
+        self.y_train = y_train
+        self.X_ts = np.concatenate(X_tag, axis=1)
+>>>>>>> 0cb69a36787e8ce8dc44bf255456c115d8a744b8
         self.y_test = y_test 
 
     def get_grid_and_score(self, X_train, y_train, X_test, y_test, collect_n=0):
