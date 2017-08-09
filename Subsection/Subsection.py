@@ -399,16 +399,16 @@ class Subsection_low(object):
                                                         del_features(X_tag, ind), y_test)
             if (score - self.table_score[-1]) > self.max_porog:
                 ar_to_improve[ind] += self.learning_rate
-            if ar_to_improve[ind] >= 1:
-                X_bag = np.delete(X_bag, ind, axis=0)
-                X_tag = np.delete(X_tag, ind, axis=0) 
-                ar_to_improve = np.delete(ar_to_improve, ind, axis=0)
-                self.table_score.append(score)
-                self.table_real.append(real_score)
-                print "epoch # {}\t SCORE: {:.3f}\t DEL: {}\n".format(i, score, ind)
-            if self.min_vec != -1:
-                if (self.k_init - (len(self.table_score)-1)*self.k_split) <= self.min_vec:
-                    break
+                if ar_to_improve[ind] >= 1:
+                    X_bag = np.delete(X_bag, ind, axis=0)
+                    X_tag = np.delete(X_tag, ind, axis=0) 
+                    ar_to_improve = np.delete(ar_to_improve, ind, axis=0)
+                    self.table_score.append(score)
+                    self.table_real.append(real_score)
+                    print "epoch # {}\t SCORE: {:.3f}\t DEL: {}\n".format(i, score, ind)
+                if self.min_vec != -1:
+                    if (self.k_init - (len(self.table_score)-1)*self.k_split) <= self.min_vec:
+                        break
 
         self.X_tr = np.concatenate(X_bag, axis=1)
         self.y_train = y_train
