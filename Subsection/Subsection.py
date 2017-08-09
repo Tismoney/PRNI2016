@@ -218,19 +218,19 @@ class Subsection_up(object):
             score, real_score = self.get_grid_and_score(join_features(X_tr, X_bag[ind]), y_train, 
                                                         join_features(X_ts, X_tag[ind]), y_test)
             if (score - self.table_score[-1]) > self.max_porog:
-                ar_to_improve[ind] += self.learning_rate
-            if ar_to_improve[ind] >= 1:
-                X_tr = join_features(X_tr, X_bag[ind])
-                X_ts = join_features(X_ts, X_tag[ind])
-                X_bag = np.delete(X_bag, ind, axis=0)
-                X_tag = np.delete(X_tag, ind, axis=0) 
-                ar_to_improve = np.delete(ar_to_improve, ind, axis=0)
-                self.table_score.append(score)
-                self.table_real.append(real_score) 
-                print "epoch # {}\t SCORE: {:.3f}\t ADD: {}\n".format(i, score, ind)
-            if self.max_vec != -1:
-                if (self.k_tr + (len(self.table_score)-1)*self.k_bag) >= self.max_vec:
-                    break
+                ar_to_improve[ind] += self.learning_rate * score
+                if ar_to_improve[ind] >= 1:
+                    X_tr = join_features(X_tr, X_bag[ind])
+                    X_ts = join_features(X_ts, X_tag[ind])
+                    X_bag = np.delete(X_bag, ind, axis=0)
+                    X_tag = np.delete(X_tag, ind, axis=0) 
+                    ar_to_improve = np.zeros(X_bag.shape[0])
+                    self.table_score.append(score)
+                    self.table_real.append(real_score) 
+                    print "epoch # {}\t SCORE: {:.3f}\t ADD: {}\n".format(i, score, ind)
+                if self.max_vec != -1:
+                    if (self.k_tr + (len(self.table_score)-1)*self.k_bag) >= self.max_vec:
+                        break
 
         self.X_tr = X_tr
         self.y_train = y_train
