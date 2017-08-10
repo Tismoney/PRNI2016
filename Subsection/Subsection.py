@@ -251,12 +251,12 @@ class Subsection_up(object):
             
         if collect_n:
             scores = []
-            rd = self.eval_cv.random_state
+            rd = self.grid_cv.random_state
             for i in range(collect_n):
-                self.eval_cv.random_state = i
+                self.grid_cv.random_state = i
                 sc = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.grid_cv, n_jobs=-1)
                 scores.append(np.mean(sc))
-            self.eval_cv.random_state = rd
+            self.grid_cv.random_state = rd
             pipeline.fit(X_train, y_train)
             y_pr = pipeline.predict(X_test)
             real_score = roc_auc_score(y_test, y_pr)
@@ -417,7 +417,7 @@ class Subsection_low(object):
 
     def get_grid_and_score(self, X_train, y_train, X_test, y_test, collect_n=0):
         
-        steps = [('selector', VarianceThreshold()), ('scaler', MinMaxScaler()),('classifier', LogisticRegression(penalty='l1', C=0.5, max_iter=50))] 
+        steps = [('selector', VarianceThreshold()), ('scaler', MinMaxScaler()),('classifier', LogisticRegression(penalty='l1', C=1.0, max_iter=50))] 
         pipeline = Pipeline(steps)
         scoring = 'roc_auc'
         if not collect_n:
@@ -430,9 +430,9 @@ class Subsection_low(object):
         if collect_n:
             scores = []
             rd = self.eval_cv.random_state
-            for i in range(collect_n):
+            for i in range(1, collect_n+1):
                 self.eval_cv.random_state = i
-                sc = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.grid_cv, n_jobs=-1)
+                sc = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.eval_cv, n_jobs=-1)
                 scores.append(np.mean(sc))
             self.eval_cv.random_state = rd
             pipeline.fit(X_train, y_train)
@@ -546,12 +546,12 @@ class Subsection_k(object):
             
         if collect_n:
             scores = []
-            rd = self.eval_cv.random_state
-            for i in range(collect_n):
-                self.eval_cv.random_state = i
+            rd = self.grid_cv.random_state
+            for i in range(1, collect_n+1):
+                self.grid_cv.random_state = i
                 sc = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.grid_cv, n_jobs=-1)
                 scores.append(np.mean(sc))
-            self.eval_cv.random_state = rd
+            self.grid_cv.random_state = rd
             pipeline.fit(X_train, y_train)
             y_pr = pipeline.predict(X_test)
             real_score = roc_auc_score(y_test, y_pr)
