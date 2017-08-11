@@ -88,7 +88,13 @@ def matrix_eig(data):
             
         if mode == 'vec2mat':
             A_mat = np.reshape(A, (size, A.shape[0] / size ))
-            return A_mat    
+            return A_mat
+        
+    def same_vec(A):
+        A = A.T
+        for i in range(A.shape[0]):
+            if A[i][0] < 0: A[i] = -A[i]
+        return A
 
     data['X_vec'] = np.zeros(shape = (data['X'].shape[0], data['X'].shape[1] * data['X'].shape[1]))
     for i in np.arange(data['X'].shape[0]):
@@ -96,7 +102,7 @@ def matrix_eig(data):
         indx = abs(curs).argsort()
         vecs = vecs[indx]
         curs = curs[indx]
-        data['X_vec'][i] = convert(vecs.dot(np.diag(curs)).T, 'mat2vec', 264)
+        data['X_vec'][i] = convert(same_vec(vecs.dot(np.diag(curs))), 'mat2vec', 264)
     return data
 
 class Subsection_up(object):
@@ -251,12 +257,12 @@ class Subsection_up(object):
             
         if collect_n:
             scores = []
-            rd = self.grid_cv.random_state
+            rd = self.eval_cv.random_state
             for i in range(collect_n):
-                self.grid_cv.random_state = i
-                sc = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.grid_cv, n_jobs=-1)
+                self.eval_cv.random_state = i
+                sc = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.eval_cv, n_jobs=-1)
                 scores.append(np.mean(sc))
-            self.grid_cv.random_state = rd
+            self.eval_cv.random_state = rd
             pipeline.fit(X_train, y_train)
             y_pr = pipeline.predict(X_test)
             real_score = roc_auc_score(y_test, y_pr)
@@ -402,7 +408,7 @@ class Subsection_low(object):
                 if ar_to_improve[ind] >= 1:
                     X_bag = np.delete(X_bag, ind, axis=0)
                     X_tag = np.delete(X_tag, ind, axis=0) 
-                    ar_to_improve = np.delete(ar_to_improve, ind, axis=0)
+                    ar_to_improve = np.zeros(X_bag.shape[0])
                     self.table_score.append(score)
                     self.table_real.append(real_score)
                     print "epoch # {}\t SCORE: {:.3f}\t DEL: {}\n".format(i, score, ind)
@@ -546,12 +552,12 @@ class Subsection_k(object):
             
         if collect_n:
             scores = []
-            rd = self.grid_cv.random_state
+            rd = self.eval_cv.random_state
             for i in range(1, collect_n+1):
-                self.grid_cv.random_state = i
-                sc = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.grid_cv, n_jobs=-1)
+                self.eval_cv.random_state = i
+                sc = cross_val_score(pipeline, X_train, y_train, scoring=scoring, cv=self.eval_cv, n_jobs=-1)
                 scores.append(np.mean(sc))
-            self.grid_cv.random_state = rd
+            self.eval_cv.random_state = rd
             pipeline.fit(X_train, y_train)
             y_pr = pipeline.predict(X_test)
             real_score = roc_auc_score(y_test, y_pr)
